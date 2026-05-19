@@ -86,11 +86,19 @@ function validCourseId(CourseInfo, AssignmentGroup, LearnerSubmissions){
    }
 }
 
+//Function that manage dates of the assignments submissions.
+function validDates(aDate){
 
-//Funtion that catch potential errors using try/catch to handle them.
+    const today = new Date();
 
-//Function that mannage dates of the assignments submissions.
+    const submitDate = new Date(aDate);
 
+    if(submitDate.getTime() <= today.getTime()){
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
     // the ID of the learner for which this data has been collected ("id": number,)
@@ -109,23 +117,29 @@ function validCourseId(CourseInfo, AssignmentGroup, LearnerSubmissions){
 
 
 
-//function to get the data of the Learners
+//function to get the data of the Learners, including using try/catch.
 function getLearnerData(course, ag, submissions) {
   // here, we would process this data to achieve the desired result.
-  const result = [
-    {
-      id: 125,
-      avg: 0.985, // (47 + 150) / (50 + 150)
-      1: 0.94, // 47 / 50
-      2: 1.0 // 150 / 150
-    },
-    {
-      id: 132,
-      avg: 0.82, // (39 + 125) / (50 + 150)
-      1: 0.78, // 39 / 50
-      2: 0.833 // late: (140 - 15) / 150
+  const result = [];
+
+    try{
+
+    }catch{
+        
     }
-  ];
+    // {
+    //   id: 125,
+    //   avg: 0.985, // (47 + 150) / (50 + 150)
+    //   1: 0.94, // 47 / 50
+    //   2: 1.0 // 150 / 150
+    // },
+    // {
+    //   id: 132,
+    //   avg: 0.82, // (39 + 125) / (50 + 150)
+    //   1: 0.78, // 39 / 50
+    //   2: 0.833 // late: (140 - 15) / 150
+    // }
+
 
   return result;
 }
