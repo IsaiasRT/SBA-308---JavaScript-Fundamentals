@@ -193,6 +193,32 @@ function buildLearnerMap(course, group, submissions){
   
 }
 
+//function that convert the learner map into array format
+
+function arrayFormat(learnersMap){
+  const results = [];
+
+  for(const learnerID in learnersMap){
+    const learner = learnersMap[learnerID];
+
+    if(learner.totalPossible ===0){
+      continue;
+    }
+
+    const average = learner.totalEarned / learner.totalPossible;
+    const result = {
+      id: learner_id,
+      avg: average
+    };
+
+    for(const assignmentId in learner.scores){
+      result[assignmentId] = learner.scores[assignmentId];
+    }
+      result.push(result);
+  }
+  return results;
+}
+
 
 
 function getLearnerData(course, group, submissions) {
