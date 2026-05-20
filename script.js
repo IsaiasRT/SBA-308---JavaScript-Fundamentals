@@ -82,7 +82,9 @@ const LearnerSubmissions = [
 function validGroupCourse(course, group){
   if (!course || !group){
     throw new Error ("AssignmentGroup or course is missing.");
-  } else if(course.id === group.course_id) {
+  } 
+  
+  if(course.id !== group.course_id) {
     throw new Error ("assignmentGroup does not match to this course");
   }
 }
@@ -112,10 +114,11 @@ function Late(submitted_at, due_at){
 }
 
 //function that validates if a score is a reasonable range
-function validScore(points_possible, score){
+function validScore(score, points_possible){
   if (typeof score !== "number" || isNaN(score)){
     return false;
-  } else if(points_possible <= 0){
+  } 
+  if(points_possible <= 0){
     return false;
   }
   return true;
@@ -156,12 +159,14 @@ function buildLearnerMap(course, group, submissions){
 
     if(!assignment){
       continue;
-    } else if(!Late(assignment)){
+    } 
+    
+    if(notYetDue(assignment)){
       continue;
     }
 
     const rawScore = submission.score;
-    const pointsPossible = assignment.pointsPossible;
+    const pointsPossible = assignment.points_possible;
 
     if(!validScore(rawScore, pointsPossible)){
       continue;
@@ -184,7 +189,7 @@ function buildLearnerMap(course, group, submissions){
 
     learner.totalEarned += adjustScore;
     learner.totalPossible += pointsPossible;
-    learner.scores[assignmentId] += normalized;
+    learner.scores[assignmentId] = normalized;
 
 
   }
@@ -207,14 +212,14 @@ function arrayFormat(learnersMap){
 
     const average = learner.totalEarned / learner.totalPossible;
     const result = {
-      id: learner_id,
+      id: learnerID,
       avg: average
     };
 
     for(const assignmentId in learner.scores){
       result[assignmentId] = learner.scores[assignmentId];
     }
-      result.push(result);
+    results.push(result);
   }
   return results;
 }
@@ -225,9 +230,8 @@ function getLearnerData(course, group, submissions) {
   // here, we would process this data to achieve the desired result.
   try{
    const learnersMap = buildLearnerMap(course, group, submissions);
-   console.log("Learners map test: ", learnersMap);
-    return [];
-    
+   const results = arrayFormat(learnersMap);
+   return results;
   }catch(error){
     console.error("getLearnerData error. please check it", error.message);
     return [];
