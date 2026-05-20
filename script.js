@@ -87,7 +87,7 @@ function validGroupCourse(course, group){
   }
 }
 
-//function that parse date string into Data Object
+//function that parse date string into Date Object
 function parseDate(datestring){
   const date = new Date(datestring);
   if(isNaN(date.getTime())){
@@ -111,6 +111,30 @@ function Late(submitted_at, due_at){
   return submittedDate > dueDate;
 }
 
+//function that validates if a score is a reasonable range
+function validScore(points_possible, score){
+  if (typeof score !== "number" || isNaN(score)){
+    return false;
+  } else if(points_possible <= 0){
+    return false;
+  }
+  return true;
+}
+
+//function that applies 10% penalty for late submissions
+function latePenalty(score, lateSubmission, penaltypoints =15){
+  if(!lateSubmission){
+    return score;
+  }
+  const adjust = score - penaltypoints;
+  return adjust < 0 ? 0 : adjust;
+
+}
+
+//function that normalize raw score value 0 and 1
+function normalize(score, points_possible){
+return score / points_possible;
+}
 
 function getLearnerData(course, group, submissions) {
   // here, we would process this data to achieve the desired result.
