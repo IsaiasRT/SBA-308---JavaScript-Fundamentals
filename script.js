@@ -77,6 +77,7 @@ const LearnerSubmissions = [
 ];
 
 ////////////////////////////////////////////////////////////////////////////
+
 //function that check which assignment group belongs to the course
 function validGroupCourse(course, group){
   if (!course || !group){
@@ -85,6 +86,31 @@ function validGroupCourse(course, group){
     throw new Error ("assignmentGroup does not match to this course");
   }
 }
+
+//function that parse date string into Data Object
+function parseDate(datestring){
+  const date = new Date(datestring);
+  if(isNaN(date.getTime())){
+    throw new Error ("Invalid date");
+  }
+  return date;
+}
+
+//function that checks if an assignment is not yet due
+function notYetDue(assignment){
+  const dueDate = parseDate(assignment.due_at);
+  const today = new Date();
+  return dueDate > today;
+
+}
+
+//function if the submission is late
+function Late(submitted_at, due_at){
+  const submittedDate = parseDate(submitted_at);
+  const dueDate = parseDate(due_at);
+  return submittedDate > dueDate;
+}
+
 
 function getLearnerData(course, group, submissions) {
   // here, we would process this data to achieve the desired result.
