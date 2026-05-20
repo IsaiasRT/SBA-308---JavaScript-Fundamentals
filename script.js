@@ -1,3 +1,4 @@
+// The provided course information.
 const CourseInfo = {
   id: 451,
   name: "Introduction to JavaScript"
@@ -30,8 +31,6 @@ const AssignmentGroup = {
     }
   ]
 };
-
-
 
 // The provided learner submission data.
 const LearnerSubmissions = [
@@ -76,99 +75,29 @@ const LearnerSubmissions = [
     }
   }
 ];
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Function that throws an error if an AssignmentGroup does not belong to CourseInfo.
-function validCourse(CourseInfo, AssignmentGroup, LearnerSubmissions){
-   const validId = CourseInfo.id === AssignmentGroup.course_id;
-   if(validId === false){
-    console.log("This Id is incorrect, please try again.")
-   }
+////////////////////////////////////////////////////////////////////////////
+//function that check which assignment group belongs to the course
+function validGroupCourse(course, group){
+  if (!course || !group){
+    throw new Error ("AssignmentGroup or course is missing.");
+  } else if(course.id === group.course_id) {
+    throw new Error ("assignmentGroup does not match to this course");
+  }
 }
 
-//Function that proccess the submission of the Learner's assignments
-function proccessSubmission(submission, assignment){
-  let score = submission.submission.score;
-  let possiblePoints = assignment.points_possible;
-
-  return (typeof score === "number" && !isNaN(score) && pointsPossible !== 0);
-
-}
-
-//Function that calculate the weight average
-function calculateWeightedAverage(submission, assignment){
-    const submitAt = new (submission.submitted_at);
-    const dueAt = new Date(assignment.due_at);
-
-    let penalty = 0
-
-    if(submitAt < dueAt){
-       const diff = (submittedAt - dueAt) / (1000 * 60 * 60 * 24);
-        const daysLate = (diff % 1 === 0) ? diff : (diff - (diff % 1) + 1);
-
-        const penaltyPercentage = daysLate * 0.1;
-        latePenalty = penaltyPercentage;
-    }
-   return (submission.score - latePenalty) / assignment.points_possible * 100;   
-}
-
-
-//Function that manage dates of the assignments submissions.
-function validDates(aDate){
-
-    const today = new Date();
-
-    const submitDate = new Date(aDate);
-
-    if(submitDate.getTime() <= today.getTime()){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
-    // the ID of the learner for which this data has been collected ("id": number,)
-    // the learner’s total, weighted average, in which assignments
-    //  with more points_possible should be counted for more
-    // e.g. a learner with 50/100 on one assignment and 190/200 on another
-    // would have a weighted average score of 240/300 = 80%. ("avg": number,)
-
-
-    // each assignment should have a key with its ID,
-    // and the value associated with it should be the percentage that
-    // the learner scored on the assignment ((submission.score / points_possible) <assignment_id>: number,))
-    // if an assignment is not yet due, it should not be included in either
-    // the average or the keyed dictionary of scores
-
-
-
-
-//function to get the data of the Learners, including using try/catch.
-function getLearnerData(course, ag, submissions) {
+function getLearnerData(course, group, submissions) {
   // here, we would process this data to achieve the desired result.
-  const result = [];
-
-    try{
-
-    }catch{
-
-    }
-    // {
-    //   id: 125,
-    //   avg: 0.985, // (47 + 150) / (50 + 150)
-    //   1: 0.94, // 47 / 50
-    //   2: 1.0 // 150 / 150
-    // },
-    // {
-    //   id: 132,
-    //   avg: 0.82, // (39 + 125) / (50 + 150)
-    //   1: 0.78, // 39 / 50
-    //   2: 0.833 // late: (140 - 15) / 150
-    // }
-
-
-  return result;
+  try{
+    const result = [];
+    validGroupCourse(course, group);
+  
+    return result;
+  }catch(err){
+    console.error("getLearnerData error. please check it", error.message);
+    return result;
+  }
+  
 }
 
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
