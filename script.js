@@ -136,13 +136,72 @@ function normalize(score, points_possible){
 return score / points_possible;
 }
 
+//function that finds assignments by ID in the assignment group.
+function findAssignmentsId(assignments, assignmentId){
+  return assignments.find((assignment) => assignment.id === assignmentId) || null;
+}
+
+//function that builds a map for Learners with total and pre-assignment scores.
+function buildLearnerMap(course, group, submissions){
+  validGroupCourse(course, group);
+
+  const learners = {};
+
+  for(const record of submissions){
+    const learnerId = record.learner_id;
+    const assignmentId = record.assignment_id;
+    const submission = record.submission;
+
+    const assignment = findAssignmentsId(group.assignments, assignmentId);
+
+    if(!assignment){
+      continue;
+    } else if(!Late(assignment)){
+      continue;
+    }
+
+    const rawScore = submission.score;
+    const pointsPossible = assignment.pointsPossible;
+
+    if(!validScore(rawScore, pointsPossible)){
+      continue;
+    }
+
+    const late = Late(submission.submitted_at, assignment.due_at);
+    const adjustScore = latePenalty(rawScore, late);
+    const normalized = normalize(adjustScore, pointsPossible);
+
+    if(!learners[learnerId]){
+      learners[learnerId] = {
+        id: learnerId,
+        totalEarned: 0,
+        totalPossible: 0,
+        scores: {}
+      };
+    }
+
+    const learner = learners[learnerId];
+
+    learner.totalEarned += adjustScore;
+    learner.totalPossible += pointsPossible;
+    learner.scores[assignmentId] += normalized;
+
+
+  }
+
+  return learners;
+  
+}
+
+
+
 function getLearnerData(course, group, submissions) {
   // here, we would process this data to achieve the desired result.
   try{
-  
-    validGroupCourse(course, group);
-  
+   const learnersMap = buildLearnerMap(course, group, submissions);
+   console.log("Learners map test: ", learnersMap);
     return [];
+    
   }catch(error){
     console.error("getLearnerData error. please check it", error.message);
     return [];
