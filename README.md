@@ -49,13 +49,21 @@ You have two total days (including weekends and holidays) to work on this assess
 
 ## 🔗 References
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
+
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling
+
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration
+
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array 
+
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects 
+
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error
+
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Equality_comparisons_and_sameness
+
 https://developer.mozilla.org/en-US/docs/Learn/JavaScript
 
 ## ⏰ Date Due:
