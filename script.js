@@ -76,15 +76,42 @@ const LearnerSubmissions = [
     }
   }
 ];
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Function that throws an error if an AssignmentGroup does not belong to CourseInfo.
-function validCourseId(CourseInfo, AssignmentGroup, LearnerSubmissions){
+function validCourse(CourseInfo, AssignmentGroup, LearnerSubmissions){
    const validId = CourseInfo.id === AssignmentGroup.course_id;
    if(validId === false){
     console.log("This Id is incorrect, please try again.")
    }
 }
+
+//Function that proccess the submission of the Learner's assignments
+function proccessSubmission(submission, assignment){
+  let score = submission.submission.score;
+  let possiblePoints = assignment.points_possible;
+
+  return (typeof score === "number" && !isNaN(score) && pointsPossible !== 0);
+
+}
+
+//Function that calculate the weight average
+function calculateWeightedAverage(submission, assignment){
+    const submitAt = new (submission.submitted_at);
+    const dueAt = new Date(assignment.due_at);
+
+    let penalty = 0
+
+    if(submitAt < dueAt){
+       const diff = (submittedAt - dueAt) / (1000 * 60 * 60 * 24);
+        const daysLate = (diff % 1 === 0) ? diff : (diff - (diff % 1) + 1);
+
+        const penaltyPercentage = daysLate * 0.1;
+        latePenalty = penaltyPercentage;
+    }
+   return (submission.score - latePenalty) / assignment.points_possible * 100;   
+}
+
 
 //Function that manage dates of the assignments submissions.
 function validDates(aDate){
@@ -125,7 +152,7 @@ function getLearnerData(course, ag, submissions) {
     try{
 
     }catch{
-        
+
     }
     // {
     //   id: 125,
