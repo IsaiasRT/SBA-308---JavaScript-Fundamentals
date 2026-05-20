@@ -89,13 +89,13 @@ function validGroupCourse(course, group){
 function getLearnerData(course, group, submissions) {
   // here, we would process this data to achieve the desired result.
   try{
-    const result = [];
+  
     validGroupCourse(course, group);
   
-    return result;
-  }catch(err){
+    return [];
+  }catch(error){
     console.error("getLearnerData error. please check it", error.message);
-    return result;
+    return [];
   }
   
 }
